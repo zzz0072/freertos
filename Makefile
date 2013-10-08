@@ -65,9 +65,15 @@ HEADERS= \
 
 CFLAGS = \
 		-fno-common -O0 \
-		-gdwarf-2 -g3 \
 		-mcpu=cortex-m3 -mthumb \
 		-Wall -std=c99 -pedantic
+
+# Options and actions
+BUILD_TYPE ?= DEBUG
+
+ifeq ($(BUILD_TYPE), DEBUG)
+	CFLAGS += -gdwarf-2 -g3
+endif
 
 # Trick to get obj file name
 # Filter out path -> Renname *.c to *.o -> Rename *.s to *.o
@@ -102,11 +108,13 @@ qemu: main.bin $(QEMU_STM32)
 	$(QEMU_STM32) -M stm32-p103 -kernel main.bin \
 		-monitor tcp:localhost:4444,server,nowait
 
+ifeq ($(BUILD_TYPE), DEBUG)
 qemudbg: main.bin $(QEMU_STM32)
 	$(QEMU_STM32) -M stm32-p103 \
 		-gdb tcp::3333 -S \
 		-kernel main.bin \
 		-monitor tcp:localhost:4444,server,nowait
+endif
 
 clean:
 	rm -f *.o *.elf *.bin *.list mkromfs
