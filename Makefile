@@ -92,15 +92,14 @@ test-romfs.o: mkromfs
 
 
 qemu: main.bin $(QEMU_STM32)
-	$(QEMU_STM32) -M stm32-p103 -kernel main.bin
+	$(QEMU_STM32) -M stm32-p103 -kernel main.bin \
+		-monitor tcp:localhost:4444,server,nowait
 
 qemudbg: main.bin $(QEMU_STM32)
 	$(QEMU_STM32) -M stm32-p103 \
 		-gdb tcp::3333 -S \
-		-kernel main.bin
-
-qemuauto: main.bin $(QEMU_STM32)
-	bash emulate.sh main.bin
+		-kernel main.bin \
+		-monitor tcp:localhost:4444,server,nowait
 
 clean:
 	rm -f *.o *.elf *.bin *.list mkromfs
