@@ -47,9 +47,20 @@ SRCS= \
 		string-util.c   \
 		main.c
 
+HEADERS= \
+		filesystem.h     \
+		fio.h            \
+		FreeRTOSConfig.h \
+		hash-djb2.h      \
+		osdebug.h        \
+		romfs.h          \
+		stm32f10x_conf.h \
+		stm32_p103.h
+
+
 all: main.bin
 
-main.bin: test-romfs.o $(SRCS)
+main.bin: test-romfs.o $(SRCS) $(HEADERS)
 	$(CROSS_COMPILE)gcc \
 		-I. -I$(FREERTOS_INC) -I$(FREERTOS_PORT_INC) \
 		-I$(CODEBASE)/libraries/CMSIS/CM3/CoreSupport \
