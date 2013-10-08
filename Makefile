@@ -66,7 +66,8 @@ HEADERS= \
 CFLAGS = \
 		-fno-common -O0 \
 		-gdwarf-2 -g3 \
-		-mcpu=cortex-m3 -mthumb
+		-mcpu=cortex-m3 -mthumb \
+		-Wall -std=c99 -pedantic
 
 # Trick to get obj file name
 # Filter out path -> Renname *.c to *.o -> Rename *.s to *.o
