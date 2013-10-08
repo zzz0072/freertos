@@ -63,6 +63,11 @@ HEADERS= \
 		stm32f10x_conf.h \
 		stm32_p103.h
 
+CFLAGS = \
+		-fno-common -O0 \
+		-gdwarf-2 -g3 \
+		-mcpu=cortex-m3 -mthumb
+
 # Trick to get obj file name
 # Filter out path -> Renname *.c to *.o -> Rename *.s to *.o
 SRC_STRIP_PATH=$(notdir $(SRCS))
@@ -72,10 +77,7 @@ OBJS=$(patsubst %.s,%.o,$(C_OBJS))
 all: main.bin
 
 objs: $(SRCS) $(HEADERS)
-	$(CROSS_COMPILE)gcc $(INCS) \
-		-fno-common -O0 \
-		-gdwarf-2 -g3 \
-		-mcpu=cortex-m3 -mthumb -c $(SRCS)
+	$(CROSS_COMPILE)gcc $(CFLAGS) $(INCS) -c $(SRCS)
 
 main.bin: objs test-romfs.o 
 	$(CROSS_COMPILE)ld -Tmain.ld -nostartfiles -o main.elf $(OBJS)
