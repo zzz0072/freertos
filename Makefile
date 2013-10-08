@@ -5,18 +5,51 @@ ARCH=CM3
 VENDOR=ST
 PLAT=STM32F10x
 CODEBASE= freertos
-CMSIS_LIB=$(CODEBASE)/libraries/CMSIS/$(ARCH)
+CMSIS_LIB_DIR=$(CODEBASE)/libraries/CMSIS/$(ARCH)
 STM32_LIB=$(CODEBASE)/libraries/STM32F10x_StdPeriph_Driver
 
-CMSIS_PLAT_SRC = $(CMSIS_LIB)/DeviceSupport/$(VENDOR)/$(PLAT)
+CMSIS_PLAT_SRC_DIR = $(CMSIS_LIB_DIR)/DeviceSupport/$(VENDOR)/$(PLAT)
 
-FREERTOS_SRC = $(CODEBASE)/libraries/FreeRTOS
-FREERTOS_INC = $(FREERTOS_SRC)/include/
-FREERTOS_PORT_INC = $(FREERTOS_SRC)/portable/GCC/ARM_$(ARCH)/
+FREERTOS_SRC_DIR = $(CODEBASE)/libraries/FreeRTOS
+FREERTOS_INC = $(FREERTOS_SRC_DIR)/include/
+FREERTOS_PORT_INC = $(FREERTOS_SRC_DIR)/portable/GCC/ARM_$(ARCH)/
+
+CMSIS_SRCS = \
+		$(CMSIS_LIB_DIR)/CoreSupport/core_cm3.c \
+		$(CMSIS_PLAT_SRC_DIR)/system_stm32f10x.c \
+		$(CMSIS_PLAT_SRC_DIR)/startup/gcc_ride7/startup_stm32f10x_md.s
+
+STM32_SRCS = \
+		$(STM32_LIB)/src/stm32f10x_rcc.c \
+		$(STM32_LIB)/src/stm32f10x_gpio.c \
+		$(STM32_LIB)/src/stm32f10x_usart.c \
+		$(STM32_LIB)/src/stm32f10x_exti.c \
+		$(STM32_LIB)/src/misc.c
+
+FREERTOS_SRC =  \
+		$(FREERTOS_SRC_DIR)/croutine.c \
+		$(FREERTOS_SRC_DIR)/list.c \
+		$(FREERTOS_SRC_DIR)/queue.c \
+		$(FREERTOS_SRC_DIR)/tasks.c \
+		$(FREERTOS_SRC_DIR)/portable/GCC/ARM_CM3/port.c \
+		$(FREERTOS_SRC_DIR)/portable/MemMang/heap_1.c
+
+SRCS= \
+		$(CMSIS_SRCS)   \
+		$(STM32_SRCS)   \
+		$(FREERTOS_SRC) \
+		stm32_p103.c    \
+		romfs.c         \
+		hash-djb2.c     \
+		filesystem.c    \
+		fio.c           \
+		osdebug.c       \
+		string-util.c   \
+		main.c
 
 all: main.bin
 
-main.bin: test-romfs.o main.c
+main.bin: test-romfs.o $(SRCS)
 	$(CROSS_COMPILE)gcc \
 		-I. -I$(FREERTOS_INC) -I$(FREERTOS_PORT_INC) \
 		-I$(CODEBASE)/libraries/CMSIS/CM3/CoreSupport \
@@ -24,36 +57,7 @@ main.bin: test-romfs.o main.c
 		-I$(CODEBASE)/libraries/STM32F10x_StdPeriph_Driver/inc \
 		-fno-common -O0 \
 		-gdwarf-2 -g3 \
-		-mcpu=cortex-m3 -mthumb \
-		-c \
-		\
-		$(CMSIS_LIB)/CoreSupport/core_cm3.c \
-		$(CMSIS_PLAT_SRC)/system_stm32f10x.c \
-		$(CMSIS_PLAT_SRC)/startup/gcc_ride7/startup_stm32f10x_md.s \
-		$(STM32_LIB)/src/stm32f10x_rcc.c \
-		$(STM32_LIB)/src/stm32f10x_gpio.c \
-		$(STM32_LIB)/src/stm32f10x_usart.c \
-		$(STM32_LIB)/src/stm32f10x_exti.c \
-		$(STM32_LIB)/src/misc.c \
-		\
-		$(FREERTOS_SRC)/croutine.c \
-		$(FREERTOS_SRC)/list.c \
-		$(FREERTOS_SRC)/queue.c \
-		$(FREERTOS_SRC)/tasks.c \
-		$(FREERTOS_SRC)/portable/GCC/ARM_CM3/port.c \
-		$(FREERTOS_SRC)/portable/MemMang/heap_1.c \
-		\
-		stm32_p103.c \
-		\
-		romfs.c \
-		hash-djb2.c \
-		filesystem.c \
-		fio.c \
-		\
-		osdebug.c \
-		string-util.c \
-		\
-		main.c
+		-mcpu=cortex-m3 -mthumb -c $(SRCS)
 	$(CROSS_COMPILE)ld -Tmain.ld -nostartfiles -o main.elf \
 		core_cm3.o \
 		system_stm32f10x.o \
