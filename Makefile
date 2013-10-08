@@ -57,10 +57,15 @@ HEADERS= \
 		stm32f10x_conf.h \
 		stm32_p103.h
 
+# Trick to get obj file name
+# Filter out path -> Renname *.c to *.o -> Rename *.s to *.o
+SRC_STRIP_PATH=$(notdir $(SRCS))
+C_OBJS=$(patsubst %.c,%.o,$(SRC_STRIP_PATH))
+OBJS=$(patsubst %.s,%.o,$(C_OBJS))
 
 all: main.bin
 
-main.bin: test-romfs.o $(SRCS) $(HEADERS)
+objs: $(SRCS) $(HEADERS)
 	$(CROSS_COMPILE)gcc \
 		-I. -I$(FREERTOS_INC) -I$(FREERTOS_PORT_INC) \
 		-I$(CODEBASE)/libraries/CMSIS/CM3/CoreSupport \
@@ -69,27 +74,9 @@ main.bin: test-romfs.o $(SRCS) $(HEADERS)
 		-fno-common -O0 \
 		-gdwarf-2 -g3 \
 		-mcpu=cortex-m3 -mthumb -c $(SRCS)
-	$(CROSS_COMPILE)ld -Tmain.ld -nostartfiles -o main.elf \
-		core_cm3.o \
-		system_stm32f10x.o \
-		startup_stm32f10x_md.o \
-		stm32f10x_rcc.o \
-		stm32f10x_gpio.o \
-		stm32f10x_usart.o \
-		stm32f10x_exti.o \
-		misc.o \
-		\
-		croutine.o list.o queue.o tasks.o \
-		port.o heap_1.o \
-		\
-		stm32_p103.o \
-		\
-		romfs.o hash-djb2.o filesystem.o fio.o \
-		\
-		osdebug.o \
-		string-util.o \
-		\
-		main.o
+
+main.bin: objs test-romfs.o 
+	$(CROSS_COMPILE)ld -Tmain.ld -nostartfiles -o main.elf $(OBJS)
 	$(CROSS_COMPILE)objcopy -Obinary main.elf main.bin
 	$(CROSS_COMPILE)objdump -S main.elf > main.list
 
