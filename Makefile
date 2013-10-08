@@ -47,6 +47,12 @@ SRCS= \
 		string-util.c   \
 		main.c
 
+INCS= \
+		-I. -I$(FREERTOS_INC) -I$(FREERTOS_PORT_INC) \
+		-I$(CODEBASE)/libraries/CMSIS/CM3/CoreSupport \
+		-I$(CODEBASE)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x \
+		-I$(CODEBASE)/libraries/STM32F10x_StdPeriph_Driver/inc
+
 HEADERS= \
 		filesystem.h     \
 		fio.h            \
@@ -66,11 +72,7 @@ OBJS=$(patsubst %.s,%.o,$(C_OBJS))
 all: main.bin
 
 objs: $(SRCS) $(HEADERS)
-	$(CROSS_COMPILE)gcc \
-		-I. -I$(FREERTOS_INC) -I$(FREERTOS_PORT_INC) \
-		-I$(CODEBASE)/libraries/CMSIS/CM3/CoreSupport \
-		-I$(CODEBASE)/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x \
-		-I$(CODEBASE)/libraries/STM32F10x_StdPeriph_Driver/inc \
+	$(CROSS_COMPILE)gcc $(INCS) \
 		-fno-common -O0 \
 		-gdwarf-2 -g3 \
 		-mcpu=cortex-m3 -mthumb -c $(SRCS)
