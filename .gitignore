@@ -1,0 +1,7 @@
+*.o
+*.elf
+*.bin
+*.list
+mkromfs
+tags
+cscope.out
