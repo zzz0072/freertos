@@ -1,5 +1,7 @@
 #define USE_STDPERIPH_DRIVER
 #include "stm32f10x.h"
+#include "stm32_p103.h"
+#include "romfs.h"
 
 /* Scheduler includes. */
 #include "FreeRTOS.h"
@@ -12,9 +14,7 @@
 #include "filesystem.h"
 #include "fio.h"
 
-extern const char _sromfs;
-
-static void setup_hardware();
+extern const uint8_t _sromfs;
 
 volatile xSemaphoreHandle serial_tx_wait_sem = NULL;
 

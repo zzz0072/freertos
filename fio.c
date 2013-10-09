@@ -7,6 +7,10 @@
 #include "osdebug.h"
 #include "hash-djb2.h"
 
+/* send_byte() is in main.c 
+ * TODO: Separate USART function out of main.c */
+extern void send_byte(char ch);
+
 static struct fddef_t fio_fds[MAX_FDS];
 
 static ssize_t stdin_read(void * opaque, void * buf, size_t count) {
