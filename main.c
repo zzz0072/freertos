@@ -85,7 +85,7 @@ int main()
     vSemaphoreCreateBinary(serial_tx_wait_sem);
 
     #ifdef RT_TEST
-    /* Create a task to output text read from romfs. */
+    /* Create a unit test task */
     xTaskCreate(unit_test_task,
                 (signed portCHAR *) "Unit Tests",
                 512 /* stack size */, NULL, tskIDLE_PRIORITY + 2, NULL);
