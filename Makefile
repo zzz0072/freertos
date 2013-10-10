@@ -69,7 +69,8 @@ HEADERS= \
 CFLAGS = \
 		-fno-common -O0 \
 		-mcpu=cortex-m3 -mthumb \
-		-Wall -std=c99 -pedantic
+		-Wall -std=c99 -pedantic \
+		-fno-builtin-printf
 
 # Options and actions
 BUILD_TYPE ?= DEBUG
