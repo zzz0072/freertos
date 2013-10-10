@@ -199,7 +199,7 @@ void my_puts(char *msg)
     }
 
     fio_write(1, "\r", 2);
-    fio_write(1, msg, strlen(msg) + 1);
+    fio_write(1, msg, strlen(msg));
 }
 
 int printf(const char *fmt_str, ...)
