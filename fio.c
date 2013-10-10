@@ -198,7 +198,6 @@ void my_puts(char *msg)
         return;
     }
 
-    fio_write(1, "\r", 2);
     fio_write(1, msg, strlen(msg));
 }
 
@@ -214,7 +213,6 @@ int printf(const char *fmt_str, ...)
 
     va_start(param, fmt_str);
 
-    fio_write(1, "\r", 2);
     /* Let's parse */
     while (fmt_str[curr_char]) {
         /* Deal with normal string
