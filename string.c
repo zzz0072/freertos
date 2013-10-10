@@ -67,3 +67,38 @@ char *strncpy(char *dest, const char *src, size_t n)
     while (n-- && (*d++ = *s++));
     return dest;
 }
+
+size_t strlen(const char *string)
+{
+    int chars = 0;
+
+    while(*string++) {
+        chars++;
+    }
+    return chars;
+}
+
+int strncmp(const char *str_a, const char *str_b, size_t n)
+{
+    int i = 0;
+
+    for(i = 0; i < n; i++) {
+        if (str_a[i] != str_b[i]) {
+            return str_a[i] - str_b[i];
+        }
+    }
+    return 0;
+}
+
+int strcmp(const char *str_a, const char *str_b)
+{
+    int i = 0;
+
+    while(str_a[i]) {
+        if (str_a[i] != str_b[i]) {
+            return str_a[i] - str_b[i];
+        }
+        i++;
+    }
+    return 0;
+}

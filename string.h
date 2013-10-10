@@ -6,4 +6,7 @@ char *strcpy(char *dest, const char *src);
 char *strchr(const char *s, int c);
 void *memcpy(void *dest, const void *src, size_t n);
 void *memset(void *dest, int c, size_t n);
+size_t strlen(const char *string);
+int strcmp(const char *str_a, const char *str_b);
+int strncmp(const char *str_a, const char *str_b, size_t n);
 #endif

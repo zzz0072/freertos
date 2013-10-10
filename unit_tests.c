@@ -1,7 +1,23 @@
 #include "fio.h"
-
+#include "string.h"
 void unit_test_task(void *pvParameters)
 {
-    char msg[] = "\n\nStart testing...\n";
-    fio_write(1, msg, sizeof(msg));
+    char msg1[] = "Start testing...\n";
+    char msg2[] = "Start";
+    my_puts(msg1);
+    my_puts(msg2);
+    
+    if (strcmp(msg1, msg2)) {
+        my_puts("msg1 and msg2 are diff\n");
+    }
+    else {
+        my_puts("strcpy result is not match\n");
+    }
+    
+    if (strncmp(msg1, msg2, 5) == 0) {
+        my_puts("msg1 and msg2 first 5 chars are the same\n");
+    }
+    else {
+        my_puts("strncpy result is not match\n");
+    }
 }

@@ -187,3 +187,13 @@ void register_devfs() {
     DBGOUT("Registering devfs.\r\n");
     register_fs("dev", devfs_open, NULL);
 }
+
+void my_puts(char *msg)
+{
+    if (!msg) {
+        return;
+    }
+
+    fio_write(1, "\r", 2);
+    fio_write(1, msg, strlen(msg) + 1);
+}
