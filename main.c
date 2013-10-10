@@ -19,6 +19,8 @@
 #include "unit_tests.h"
 #endif
 
+#include "string.h"
+
 extern const uint8_t _sromfs;
 
 volatile xSemaphoreHandle serial_tx_wait_sem = NULL;

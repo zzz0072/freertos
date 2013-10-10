@@ -1,6 +1,6 @@
-#include <stddef.h>
 #include <stdint.h>
 #include <limits.h>
+#include "string.h"
 
 #define ALIGN (sizeof(size_t))
 #define ONES ((size_t)-1/UCHAR_MAX)

@@ -44,7 +44,7 @@ SRCS= \
 		filesystem.c    \
 		fio.c           \
 		osdebug.c       \
-		string-util.c   \
+		string.c   \
 		main.c
 
 INCS= \
