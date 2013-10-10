@@ -8,7 +8,6 @@
 #include "task.h"
 #include "queue.h"
 #include "semphr.h"
-#include <string.h>
 
 /* Filesystem includes */
 #include "filesystem.h"
