@@ -46,7 +46,8 @@ SRCS= \
 		osdebug.c       \
 		string.c        \
 		util.c          \
-		main.c
+		main.c         \
+		shell.c
 
 INCS= \
 		-I. -I$(FREERTOS_INC) -I$(FREERTOS_PORT_INC) \
@@ -64,7 +65,8 @@ HEADERS= \
 		stm32f10x_conf.h \
 		stm32_p103.h     \
 		string.h         \
-		util.h
+		util.h           \
+		shell.h
 
 CFLAGS = \
 		-fno-common -O0 \
@@ -73,7 +75,7 @@ CFLAGS = \
 		-fno-builtin-printf
 
 # Options and actions
-BUILD_TYPE ?= DEBUG
+BUILD_TYPE ?= REL
 
 ifeq ($(BUILD_TYPE), DEBUG)
 	CFLAGS  += -gdwarf-2 -g3 -DRT_TEST

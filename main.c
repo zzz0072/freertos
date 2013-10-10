@@ -19,6 +19,7 @@
 #endif
 
 #include "string.h"
+#include "shell.h"
 
 extern const uint8_t _sromfs;
 
@@ -118,6 +119,11 @@ int main()
                 (signed portCHAR *) "Unit Tests",
                 512 /* stack size */, NULL, tskIDLE_PRIORITY + 2, NULL);
     #endif /* RT_TEST */
+
+    /* Create shell task */
+    xTaskCreate(shell_task,
+                (signed portCHAR *) "Shell",
+                512 /* stack size */, NULL, tskIDLE_PRIORITY + 2, NULL);
 
     /* Start running the tasks. */
     vTaskStartScheduler();
