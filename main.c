@@ -14,6 +14,11 @@
 #include "filesystem.h"
 #include "fio.h"
 
+/* Debug/Testing */
+#ifdef RT_TEST
+#include "unit_tests.h"
+#endif
+
 extern const uint8_t _sromfs;
 
 volatile xSemaphoreHandle serial_tx_wait_sem = NULL;
@@ -98,6 +103,13 @@ int main()
     xTaskCreate(read_romfs_task,
                 (signed portCHAR *) "Read romfs",
                 512 /* stack size */, NULL, tskIDLE_PRIORITY + 2, NULL);
+    
+    #ifdef RT_TEST
+    /* Create a task to output text read from romfs. */
+    xTaskCreate(unit_test_task,
+                (signed portCHAR *) "Unit Tests",
+                512 /* stack size */, NULL, tskIDLE_PRIORITY + 2, NULL);
+    #endif /* RT_TEST */
 
     /* Start running the tasks. */
     vTaskStartScheduler();

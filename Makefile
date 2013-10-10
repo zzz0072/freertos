@@ -72,7 +72,9 @@ CFLAGS = \
 BUILD_TYPE ?= DEBUG
 
 ifeq ($(BUILD_TYPE), DEBUG)
-	CFLAGS += -gdwarf-2 -g3
+	CFLAGS  += -gdwarf-2 -g3 -DRT_TEST
+	SRCS    += unit_tests.c
+	HEADERS += unit_tests.h
 endif
 
 # Trick to get obj file name
