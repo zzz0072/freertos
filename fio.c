@@ -192,13 +192,13 @@ void register_devfs() {
     register_fs("dev", devfs_open, NULL);
 }
 
-void my_puts(char *msg)
+int puts(const char *msg)
 {
     if (!msg) {
-        return;
+        return -1;
     }
 
-    fio_write(1, msg, strlen(msg));
+    return (int)fio_write(1, msg, strlen(msg));
 }
 
 int printf(const char *fmt_str, ...)
