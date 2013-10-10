@@ -1,5 +1,6 @@
 #include "fio.h"
 #include "string.h"
+#include "util.h"
 void unit_test_task(void *pvParameters)
 {
     char msg1[] = "Start testing...\n";
