@@ -2,10 +2,14 @@
 #include <FreeRTOS.h>
 #include <semphr.h>
 #include <unistd.h>
+#include <stdarg.h> /* For variable list */
+
 #include "fio.h"
 #include "filesystem.h"
 #include "osdebug.h"
 #include "hash-djb2.h"
+#include "util.h"
+
 
 /* send_byte() is in main.c
  * TODO: Separate USART function out of main.c */
@@ -196,4 +200,75 @@ void my_puts(char *msg)
 
     fio_write(1, "\r", 2);
     fio_write(1, msg, strlen(msg) + 1);
+}
+
+int printf(const char *fmt_str, ...)
+{
+    va_list param = {0};
+
+    char  param_chr[] = {0, 0}; 
+    int   param_int = 0;
+
+    char *str_to_output = 0;
+    int   curr_char  = 0;
+
+    va_start(param, fmt_str);
+
+    fio_write(1, "\r", 2);
+    /* Let's parse */
+    while (fmt_str[curr_char]) {
+        /* Deal with normal string
+         * increase index by 1 here  */
+        if (fmt_str[curr_char++] != '%') {
+            param_chr[0]  = fmt_str[curr_char - 1];
+            str_to_output = param_chr;
+        }
+        /* % case-> retrive latter params */
+        else {
+            switch (fmt_str[curr_char]) {
+                case 'S':
+                case 's':
+                    {
+                        str_to_output = va_arg(param, char *);
+                    }
+                    break;
+
+                case 'd':
+                case 'D':
+                    {
+                       param_int     = va_arg(param, int);
+                       str_to_output = itoa(param_int);
+                    }
+                    break;
+
+                case 'X':
+                case 'x':
+                    {
+                       param_int     = va_arg(param, int);
+                       str_to_output = htoa(param_int);
+                    }
+                    break;
+
+                case 'c':
+                case 'C':
+                    {
+                        param_chr[0]  = (char) va_arg(param, int);
+                        str_to_output = param_chr;
+                        break;
+                    }
+
+                default:
+                    {
+                        param_chr[0]  = fmt_str[curr_char];
+                        str_to_output = param_chr;
+                    }
+            } /* switch (fmt_str[curr_char])      */
+            curr_char++;
+        }     /* if (fmt_str[curr_char++] == '%') */
+        fio_write(1, str_to_output, strlen(str_to_output));
+    }         /* while (fmt_str[curr_char])       */
+
+    va_end(param);
+
+    return curr_char;
 }
