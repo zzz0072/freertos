@@ -9,4 +9,5 @@ void *memset(void *dest, int c, size_t n);
 size_t strlen(const char *string);
 int strcmp(const char *str_a, const char *str_b);
 int strncmp(const char *str_a, const char *str_b, size_t n);
+char *strcat(char *dest, const char *src);
 #endif

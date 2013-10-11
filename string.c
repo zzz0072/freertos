@@ -102,3 +102,16 @@ int strcmp(const char *str_a, const char *str_b)
     }
     return 0;
 }
+
+char *strcat(char *dest, const char *src)
+{
+    size_t src_len  = strlen(src);
+    size_t dest_len = strlen(dest);
+
+    if (!dest || !src) {
+        return dest;
+    }
+
+    memcpy(dest + dest_len, src, src_len + 1);
+    return dest;
+}
