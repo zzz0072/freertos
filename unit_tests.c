@@ -28,4 +28,6 @@ void unit_test_task(void *pvParameters)
 
     strcat(msg2, msg1);
     printf("strcat:%s\n\r", msg2);
+    sprintf(msg2, "==>test sprintf %s:%s:%d\n", msg1, "zzz", 122);
+    printf("sprintf:%s\n\r", msg2);
 }

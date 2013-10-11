@@ -214,6 +214,12 @@ int printf_cb(char *dest, const char *src)
     return puts(src);
 }
 
+int sprintf_cb(char *dest, const char *src)
+{
+    return (int)strcat(dest, src);
+}
+
+/* Common body for sprintf and printf */
 int base_printf(proc_str_func_t proc_str, \
                 char *dest, const char *fmt_str, ...)
 {
@@ -224,6 +230,12 @@ int base_printf(proc_str_func_t proc_str, \
 
     char *str_to_output = 0;
     int   curr_char  = 0;
+
+    /* Make sure strlen(dest) is 0
+     * for first strcat */
+    if (dest) {
+        dest[0] = 0;
+    }
 
     va_start(param, fmt_str);
 

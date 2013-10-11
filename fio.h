@@ -46,10 +46,12 @@ int puts(const char *msg);
 typedef int (*proc_str_func_t)(char *, const char *);
 
 int printf_cb(char *, const char *);
+int sprintf_cb(char *, const char *);
 
 int base_printf(proc_str_func_t proc_str, \
                 char *dest, const char *fmt_str, ...);
 
 #define printf(...) base_printf(printf_cb, (char *)0, __VA_ARGS__)
+#define sprintf(...) base_printf(sprintf_cb, __VA_ARGS__)
 
 #endif
