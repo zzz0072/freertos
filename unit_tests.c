@@ -4,7 +4,7 @@
 void unit_test_task(void *pvParameters)
 {
     char msg1[] = "Start\n\r";
-    char msg2[32] = "Start testing...\n\r";
+    char msg2[512] = "Start testing...\n\r";
     puts(msg1);
     puts(msg2);
 
@@ -30,4 +30,7 @@ void unit_test_task(void *pvParameters)
     printf("strcat:%s\n\r", msg2);
     sprintf(msg2, "==>test sprintf %s:%s:%d\n", msg1, "zzz", 122);
     printf("sprintf:%s\n\r", msg2);
+    
+    vTaskList(msg2);
+    printf("vTaskList:%s\n\r", msg2);
 }
