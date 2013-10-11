@@ -42,7 +42,14 @@ void fio_set_opaque(int fd, void * opaque);
 void register_devfs();
 
 int puts(const char *msg);
-int printf(const char *fmt_str, ...);
 
+typedef int (*proc_str_func_t)(char *, const char *);
+
+int printf_cb(char *, const char *);
+
+int base_printf(proc_str_func_t proc_str, \
+                char *dest, const char *fmt_str, ...);
+
+#define printf(...) base_printf(printf_cb, (char *)0, __VA_ARGS__)
 
 #endif

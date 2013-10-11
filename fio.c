@@ -209,7 +209,13 @@ int puts(const char *msg)
     return (int)fio_write(1, msg, strlen(msg));
 }
 
-int printf(const char *fmt_str, ...)
+int printf_cb(char *dest, const char *src)
+{
+    return puts(src);
+}
+
+int base_printf(proc_str_func_t proc_str, \
+                char *dest, const char *fmt_str, ...)
 {
     va_list param = {0};
 
@@ -271,10 +277,11 @@ int printf(const char *fmt_str, ...)
             } /* switch (fmt_str[curr_char])      */
             curr_char++;
         }     /* if (fmt_str[curr_char++] == '%') */
-        fio_write(1, str_to_output, strlen(str_to_output));
+        proc_str(dest, str_to_output);
     }         /* while (fmt_str[curr_char])       */
 
     va_end(param);
 
     return curr_char;
 }
+
