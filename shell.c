@@ -20,7 +20,7 @@ static void read_token(char *token, int max_token_chars)
     curr_char = 0;
     while(1) {
         /* Receive a byte from the stdin. */
-        ch = receive_byte();
+        fio_read(0, &ch, 1);
 
         /* Handle ESC case first */
         if (last_char_is_ESC == RT_YES) {
@@ -28,7 +28,7 @@ static void read_token(char *token, int max_token_chars)
 
             if (ch == '[') {
                 /* Direction key: ESC[A ~ ESC[D */
-                ch = receive_byte();
+                fio_read(0, &ch, 1);
 
                 /* Home:      ESC[1~
                  * End:       ESC[2~
@@ -37,7 +37,7 @@ static void read_token(char *token, int max_token_chars)
                  * Page up:   ESC[5~
                  * Page down: ESC[6~ */
                 if (ch >= '1' && ch <= '6') {
-                    ch = receive_byte();
+                    fio_read(0, &ch, 1);
                 }
                 continue;
             }
