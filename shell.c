@@ -104,7 +104,7 @@ static void system(void)
 {
     char host_cmd[MAX_MSG_CHARS];
 
-    printf("\n\rEnter host command: ");
+    printf("Enter host command: ");
     read_token(host_cmd, MAX_MSG_CHARS);
 
     if (strlen(host_cmd) < MAX_MSG_CHARS - 1 && host_cmd[0] != '\n') {
@@ -127,7 +127,6 @@ static void proc_cmd(char *cmd)
     int i = 0;
 
     /* Lets process command */
-    printf("\n");
     for (i = 0; i < sizeof(available_cmds)/sizeof(cmd_entry); i++) {
         if (strncmp(cmd, available_cmds[i].name, strlen(available_cmds[i].name)) == 0) {
             /* Avoid subset case -> valid cmd: "ps" vs user input: "ps1" */
@@ -153,6 +152,7 @@ void shell_task(void *pvParameters)
 
         /* Process command */
         if (strlen(str) < MAX_MSG_CHARS - 1 && str[0] != '\n') {
+            printf("\n\r");
             proc_cmd(str);
         }
     }
