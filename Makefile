@@ -77,7 +77,7 @@ CFLAGS = \
 # Options and actions
 BUILD_TYPE    ?= DEBUG
 USE_UNIT_TEST ?= NO
-USE_SEMIHOST  ?=YES
+USE_SEMIHOST  ?= YES
 
 ifeq ($(BUILD_TYPE), DEBUG)
 	CFLAGS += -gdwarf-2 -g3
