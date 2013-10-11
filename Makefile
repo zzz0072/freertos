@@ -77,6 +77,7 @@ CFLAGS = \
 # Options and actions
 BUILD_TYPE    ?= DEBUG
 USE_UNIT_TEST ?= NO
+USE_SEMIHOST  ?=YES
 
 ifeq ($(BUILD_TYPE), DEBUG)
 	CFLAGS += -gdwarf-2 -g3
@@ -86,6 +87,13 @@ ifeq ($(BUILD_TYPE), DEBUG)
 		SRCS    += unit_tests.c
 		HEADERS += unit_tests.h
 	endif
+endif
+
+ifeq ($(USE_SEMIHOST),YES)
+	CFLAGS  += -DUSE_SEMIHOST
+	SRCS    += host.c
+	HEADERS += host.h
+	QEMU_SMH_PARAM_SUFFIX=-semihosting
 endif
 
 # Trick to get obj file name
@@ -118,14 +126,14 @@ test-romfs.o: mkromfs
 
 
 qemu: main.bin $(QEMU_STM32)
-	$(QEMU_STM32) -M stm32-p103 -kernel main.bin \
-		-monitor tcp:localhost:4444,server,nowait
+	$(QEMU_STM32) -M stm32-p103 -kernel main.bin  \
+		-monitor tcp:localhost:4444,server,nowait \
+		$(QEMU_SMH_PARAM_SUFFIX)
 
 ifeq ($(BUILD_TYPE), DEBUG)
 qemudbg: main.bin $(QEMU_STM32)
-	$(QEMU_STM32) -M stm32-p103 \
-		-gdb tcp::3333 -S \
-		-kernel main.bin \
+	$(QEMU_STM32) -M stm32-p103 -gdb tcp::3333 -S \
+		$(QEMU_SMH_PARAM_SUFFIX) -kernel main.bin \
 		-monitor tcp:localhost:4444,server,nowait
 endif
 

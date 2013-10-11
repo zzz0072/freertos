@@ -1,5 +1,6 @@
 #include "fio.h"
 #include "string.h"
+#include "host.h"
 
 #define MAX_MSG_CHARS (32)
 
@@ -83,6 +84,7 @@ struct cmd_t
 };
 
 static void help_menu(void);
+static void system(void);
 
 typedef struct cmd_t cmd_entry;
 static cmd_entry available_cmds[] = {
@@ -91,7 +93,24 @@ static cmd_entry available_cmds[] = {
             .desc = "This menu",
             .handler = help_menu
         },
+        {
+            .name = "system",
+            .desc = "system\n\r\t\tRun host command",
+            .handler = system
+        }
 };
+
+static void system(void)
+{
+    char host_cmd[MAX_MSG_CHARS];
+
+    printf("\n\rEnter host command: ");
+    read_token(host_cmd, MAX_MSG_CHARS);
+
+    if (strlen(host_cmd) < MAX_MSG_CHARS - 1 && host_cmd[0] != '\n') {
+        host_system(host_cmd, strlen(host_cmd));
+    }
+}
 
 static void help_menu(void)
 {
