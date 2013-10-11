@@ -70,7 +70,7 @@ char *strncpy(char *dest, const char *src, size_t n)
 
 size_t strlen(const char *string)
 {
-    int chars = 0;
+    size_t chars = 0;
 
     while(*string++) {
         chars++;
