@@ -75,12 +75,17 @@ CFLAGS = \
 		-fno-builtin-printf
 
 # Options and actions
-BUILD_TYPE ?= REL
+BUILD_TYPE    ?= DEBUG
+USE_UNIT_TEST ?= NO
 
 ifeq ($(BUILD_TYPE), DEBUG)
-	CFLAGS  += -gdwarf-2 -g3 -DRT_TEST
-	SRCS    += unit_tests.c
-	HEADERS += unit_tests.h
+	CFLAGS += -gdwarf-2 -g3
+
+	ifeq ($(USE_UNIT_TEST), YES)
+		CFLAGS  +=-DRT_TEST
+		SRCS    += unit_tests.c
+		HEADERS += unit_tests.h
+	endif
 endif
 
 # Trick to get obj file name
