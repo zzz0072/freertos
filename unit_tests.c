@@ -1,6 +1,8 @@
 #include "fio.h"
 #include "string.h"
 #include "util.h"
+#include "FreeRTOS.h"
+#include "task.h"
 void unit_test_task(void *pvParameters)
 {
     char msg1[] = "Start\n\r";
