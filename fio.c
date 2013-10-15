@@ -209,22 +209,22 @@ int puts(const char *msg)
     return (int)fio_write(1, msg, strlen(msg));
 }
 
-int printf_cb(char *dest, const char *src)
+static int printf_cb(char *dest, const char *src)
 {
     return puts(src);
 }
 
-int sprintf_cb(char *dest, const char *src)
+static int sprintf_cb(char *dest, const char *src)
 {
     return (int)strcat(dest, src);
 }
 
-/* Common body for sprintf and printf */
-int base_printf(proc_str_func_t proc_str, \
-                char *dest, const char *fmt_str, ...)
-{
-    va_list param = {0};
+typedef int (*proc_str_func_t)(char *, const char *);
 
+/* Common body for sprintf and printf */
+static int base_printf(proc_str_func_t proc_str, \
+                char *dest, const char *fmt_str, va_list param)
+{
     char  param_chr[] = {0, 0}; 
     int   param_int = 0;
 
@@ -236,8 +236,6 @@ int base_printf(proc_str_func_t proc_str, \
     if (dest) {
         dest[0] = 0;
     }
-
-    va_start(param, fmt_str);
 
     /* Let's parse */
     while (fmt_str[curr_char]) {
@@ -292,8 +290,29 @@ int base_printf(proc_str_func_t proc_str, \
         proc_str(dest, str_to_output);
     }         /* while (fmt_str[curr_char])       */
 
-    va_end(param);
-
     return curr_char;
 }
 
+int sprintf(char *str, const char *format, ...)
+{
+    int rval = 0;
+    va_list param = {0};
+
+    va_start(param, format);
+    rval = base_printf(sprintf_cb, (char *)str, format, param);
+    va_end(param);
+
+    return rval;
+}
+
+int printf(const char *format, ...)
+{
+    int rval = 0;
+    va_list param = {0};
+
+    va_start(param, format);
+    rval = base_printf(printf_cb, (char *)0, format, param);
+    va_end(param);
+
+    return rval;
+}
