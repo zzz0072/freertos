@@ -75,7 +75,7 @@ CFLAGS = \
 
 # Options and actions
 BUILD_TYPE    ?= DEBUG
-USE_UNIT_TEST ?= NO
+USE_UNIT_TEST ?= YES
 USE_SEMIHOST  ?= YES
 
 ifeq ($(BUILD_TYPE), DEBUG)

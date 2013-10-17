@@ -35,4 +35,5 @@ void unit_test_task(void *pvParameters)
     
     vTaskList(msg2);
     printf("vTaskList:%s\n\r", msg2);
+    while(1);
 }
