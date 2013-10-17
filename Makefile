@@ -43,10 +43,9 @@ SRCS= \
 		hash-djb2.c     \
 		filesystem.c    \
 		fio.c           \
-		osdebug.c       \
 		string.c        \
 		util.c          \
-		main.c         \
+		main.c          \
 		shell.c
 
 INCS= \
@@ -80,7 +79,7 @@ USE_UNIT_TEST ?= NO
 USE_SEMIHOST  ?= YES
 
 ifeq ($(BUILD_TYPE), DEBUG)
-	CFLAGS += -gdwarf-2 -g3
+	CFLAGS += -gdwarf-2 -g3 -DENABLE_DEBUG
 
 	ifeq ($(USE_UNIT_TEST), YES)
 		CFLAGS  +=-DRT_TEST
