@@ -32,8 +32,8 @@ void unit_test_task(void *pvParameters)
     printf("strcat:%s\n\r", msg2);
     sprintf(msg2, "==>test sprintf %s:%s:%d\n", msg1, "zzz", 122);
     printf("sprintf:%s\n\r", msg2);
-    
-    vTaskList(msg2);
+
+    vTaskList((signed char*)msg2);
     printf("vTaskList:%s\n\r", msg2);
     vTaskDelete(NULL);
 }
