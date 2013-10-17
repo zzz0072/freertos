@@ -40,7 +40,6 @@ char *htoa(int val)
 char* addrtoa(long int addr)
 {
     static char buf[32] = { 0 };
-    char has_minus = 0;
     int i = 30;
 
     /* Sepecial case: 0 */
