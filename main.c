@@ -106,12 +106,12 @@ int main()
     fs_init();
     fio_init();
 
-    register_romfs("romfs", &_sromfs);
-
     /* Create the queue used by the serial task.  Messages for write to
      * the RS232. */
     vSemaphoreCreateBinary(serial_tx_wait_sem);
     serial_rx_queue = xQueueCreate(1, sizeof(serial_ch_msg));
+
+    register_romfs("romfs", &_sromfs);
 
     #ifdef RT_TEST
     /* Create a unit test task */
