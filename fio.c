@@ -227,6 +227,8 @@ static int base_printf(proc_str_func_t proc_str, \
 {
     char  param_chr[] = {0, 0}; 
     int   param_int = 0;
+    
+    long int param_lint = 0;
 
     char *str_to_output = 0;
     int   curr_char  = 0;
@@ -267,7 +269,15 @@ static int base_printf(proc_str_func_t proc_str, \
                 case 'x':
                     {
                        param_int     = va_arg(param, int);
-                       str_to_output = htoa(param_int);
+                       str_to_output = addrtoa(param_int);
+                    }
+                    break;
+
+                case 'P':
+                case 'p':
+                    {
+                       param_lint     = va_arg(param, long int);
+                       str_to_output = htoa(param_lint);
                     }
                     break;
 
