@@ -72,7 +72,7 @@ CFLAGS = \
 		-fno-common -O0 \
 		-mcpu=cortex-m3 -mthumb \
 		-Wall -std=c99 -pedantic \
-		-fno-builtin-printf
+		-ffreestanding
 
 # Options and actions
 BUILD_TYPE    ?= DEBUG
