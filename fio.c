@@ -270,7 +270,7 @@ static int base_printf(proc_str_func_t proc_str, \
                 case 'x':
                     {
                        param_int     = va_arg(param, int);
-                       str_to_output = addrtoa(param_lint);
+                       str_to_output = htoa(param_int, itoa_buf);
                     }
                     break;
 
@@ -278,7 +278,7 @@ static int base_printf(proc_str_func_t proc_str, \
                 case 'p':
                     {
                        param_lint     = va_arg(param, long int);
-                       str_to_output = htoa(param_int, itoa_buf);
+                       str_to_output = addrtoa(param_lint);
                     }
                     break;
 
