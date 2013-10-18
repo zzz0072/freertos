@@ -25,6 +25,8 @@ void unit_test_task(void *pvParameters)
     }
 
     printf("test htoi(255):%s\n\r", htoa(255, msg2));
+    printf("test htoi(-18):%s\n\r", htoa(-18, msg2));
+    printf("test addrtoa(-1):%s\n\r", addrtoa(-1, msg2));
     printf("test atoi(100):%s\n\r", itoa(100, msg2));
     printf("\n");
 

@@ -4,5 +4,5 @@
 
 char *itoa(int val, char *itoa_buf);
 char *htoa(int val, char *htoa_buf);
-char* addrtoa(long int addr);
+char* addrtoa(long int addr, char *addr_buf);
 #endif

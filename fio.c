@@ -278,7 +278,7 @@ static int base_printf(proc_str_func_t proc_str, \
                 case 'p':
                     {
                        param_lint     = va_arg(param, long int);
-                       str_to_output = addrtoa(param_lint);
+                       str_to_output = addrtoa(param_lint, itoa_buf);
                     }
                     break;
 
