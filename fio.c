@@ -232,7 +232,7 @@ static int base_printf(proc_str_func_t proc_str, \
 
     char *str_to_output = 0;
     char itoa_buf[MAX_ITOA_CHARS] = {0};
-    int   curr_char  = 0;
+    int  curr_char  = 0;
 
     /* Make sure strlen(dest) is 0
      * for first strcat */
@@ -277,7 +277,7 @@ static int base_printf(proc_str_func_t proc_str, \
                 case 'P':
                 case 'p':
                     {
-                       param_lint     = va_arg(param, long int);
+                       param_lint    = va_arg(param, long int);
                        str_to_output = addrtoa(param_lint, itoa_buf);
                     }
                     break;
