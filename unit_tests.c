@@ -24,6 +24,8 @@ void unit_test_task(void *pvParameters)
         puts("strncpy result is not match\n\r");
     }
 
+    /* Dirty? Only last atoi buf need to be set to \0 */
+    msg2[MAX_ITOA_CHARS - 1] = 0;
     printf("test htoi(255):%s\n\r", htoa(255, msg2));
     printf("test htoi(-18):%s\n\r", htoa(-18, msg2));
     printf("test addrtoa(-1):%s\n\r", addrtoa(-1, msg2));
