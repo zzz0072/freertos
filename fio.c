@@ -231,6 +231,7 @@ static int base_printf(proc_str_func_t proc_str, \
     long int param_lint = 0;
 
     char *str_to_output = 0;
+    char itoa_buf[MAX_ITOA_CHARS] = {0};
     int   curr_char  = 0;
 
     /* Make sure strlen(dest) is 0
@@ -261,7 +262,7 @@ static int base_printf(proc_str_func_t proc_str, \
                 case 'D':
                     {
                        param_int     = va_arg(param, int);
-                       str_to_output = itoa(param_int);
+                       str_to_output = itoa(param_int, itoa_buf);
                     }
                     break;
 
@@ -269,7 +270,7 @@ static int base_printf(proc_str_func_t proc_str, \
                 case 'x':
                     {
                        param_int     = va_arg(param, int);
-                       str_to_output = addrtoa(param_int);
+                       str_to_output = addrtoa(param_lint);
                     }
                     break;
 
@@ -277,7 +278,7 @@ static int base_printf(proc_str_func_t proc_str, \
                 case 'p':
                     {
                        param_lint     = va_arg(param, long int);
-                       str_to_output = htoa(param_lint);
+                       str_to_output = htoa(param_int, itoa_buf);
                     }
                     break;
 

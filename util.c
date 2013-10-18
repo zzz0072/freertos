@@ -1,8 +1,7 @@
 
 /* FIXME: There are re-entry issus */
-static char* itoa_base(int val, int base)
+static char* itoa_base(int val, int base, char *buf)
 {
-    static char buf[32] = { 0 };
     char has_minus = 0;
     int i = 30;
 
@@ -27,14 +26,14 @@ static char* itoa_base(int val, int base)
     return &buf[i + 1];
 }
 
-char *itoa(int val)
+char *itoa(int val, char *itoa_buf)
 {
-    return itoa_base(val, 10);
+    return itoa_base(val, 10, itoa_buf);
 }
 
-char *htoa(int val)
+char *htoa(int val, char *htoa_buf)
 {
-    return itoa_base(val, 16);
+    return itoa_base(val, 16, htoa_buf);
 }
 
 char* addrtoa(long int addr)

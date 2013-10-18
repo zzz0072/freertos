@@ -24,8 +24,8 @@ void unit_test_task(void *pvParameters)
         puts("strncpy result is not match\n\r");
     }
 
-    printf("test htoi(255):%s\n\r", htoa(255));
-    printf("test atoi(100):%s\n\r", itoa(100));
+    printf("test htoi(255):%s\n\r", htoa(255, msg2));
+    printf("test atoi(100):%s\n\r", itoa(100, msg2));
     printf("\n");
 
     strcat(msg2, msg1);
