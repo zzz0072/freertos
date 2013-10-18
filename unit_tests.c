@@ -39,5 +39,5 @@ void unit_test_task(void *pvParameters)
 
     vTaskList((signed char*)msg2);
     printf("vTaskList:%s\n\r", msg2);
-    vTaskDelete(NULL);
+    printf("End of unit test\n\n\n\r");
 }

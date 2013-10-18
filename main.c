@@ -114,10 +114,7 @@ int main()
     register_romfs("romfs", &_sromfs);
 
     #ifdef RT_TEST
-    /* Create a unit test task */
-    xTaskCreate(unit_test_task,
-                (signed portCHAR *) "Unit Tests",
-                512 /* stack size */, NULL, tskIDLE_PRIORITY + 2, NULL);
+    unit_test_task(0);
     #endif /* RT_TEST */
 
     /* Create shell task */
