@@ -12,12 +12,6 @@
 /* Filesystem includes */
 #include "filesystem.h"
 #include "fio.h"
-
-/* Debug/Testing */
-#ifdef RT_TEST
-#include "unit_tests.h"
-#endif
-
 #include "string.h"
 #include "shell.h"
 
@@ -112,10 +106,6 @@ int main()
     serial_rx_queue = xQueueCreate(1, sizeof(serial_ch_msg));
 
     register_romfs("romfs", &_sromfs);
-
-    #ifdef RT_TEST
-    unit_test_task(0);
-    #endif /* RT_TEST */
 
     /* Create shell task */
     xTaskCreate(shell_task,

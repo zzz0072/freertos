@@ -1,7 +1,10 @@
 #include "fio.h"
 #include "string.h"
 #include "host.h"
-
+/* Debug/Testing */
+#ifdef RT_TEST
+#include "unit_tests.h"
+#endif
 #define MAX_MSG_CHARS (32)
 
 #define BACKSPACE (127)
@@ -85,6 +88,9 @@ struct cmd_t
 
 static void help_menu(void);
 static void system(void);
+#ifdef RT_TEST
+static void unit_test(void);
+#endif
 
 typedef struct cmd_t cmd_entry;
 static cmd_entry available_cmds[] = {
@@ -98,6 +104,13 @@ static cmd_entry available_cmds[] = {
             .name = "system",
             .desc = "system\n\r\t\tRun host command",
             .handler = system
+        },
+        #endif
+        #ifdef RT_TEST
+        {
+            .name = "test",
+            .desc = "Run API tests",
+            .handler = unit_test
         }
         #endif
 };
@@ -114,6 +127,13 @@ static void system(void)
     }
 }
 #endif
+
+#ifdef RT_TEST
+static void unit_test(void)
+{
+    unit_test_task(0);
+}
+#endif /* RT_TEST */
 
 static void help_menu(void)
 {
