@@ -91,6 +91,17 @@ char receive_byte()
     return msg.ch;
 }
 
+int receive_byte_noblock(char *ch)
+{
+    serial_ch_msg msg;
+    int rval = xQueueReceive(serial_rx_queue, &msg, 10);
+    if ( rval == pdTRUE) {
+        *ch = msg.ch;
+    }
+
+    return rval;
+}
+
 int main()
 {
     init_rs232();
