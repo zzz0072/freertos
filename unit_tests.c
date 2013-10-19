@@ -3,6 +3,8 @@
 #include "util.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "memtest.h"
+
 void unit_test_task(void *pvParameters)
 {
     char msg1[] = "Start\n\r";
@@ -39,5 +41,6 @@ void unit_test_task(void *pvParameters)
 
     vTaskList((signed char*)msg2);
     printf("vTaskList:%s\n\r", msg2);
+    mem_test();
     printf("End of unit test\n\n\n\r");
 }

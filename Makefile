@@ -46,6 +46,7 @@ SRCS= \
 		string.c        \
 		util.c          \
 		main.c          \
+		memtest.c       \
 		shell.c
 
 INCS= \
@@ -65,6 +66,7 @@ HEADERS= \
 		stm32_p103.h     \
 		string.h         \
 		util.h           \
+		memtest.h       \
 		shell.h
 
 CFLAGS = \
