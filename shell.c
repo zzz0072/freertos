@@ -78,6 +78,27 @@ static void read_token(char *token, int max_token_chars)
     }
 }
 
+#ifdef USE_SEMIHOST
+static void system(void)
+{
+    char host_cmd[MAX_MSG_CHARS];
+
+    printf("Enter host command: ");
+    read_token(host_cmd, MAX_MSG_CHARS);
+
+    if (strlen(host_cmd) < MAX_MSG_CHARS - 1 && host_cmd[0] != '\n') {
+        host_system(host_cmd, strlen(host_cmd));
+    }
+}
+#endif
+
+#ifdef RT_TEST
+static void unit_test(void)
+{
+    unit_test_task(0);
+}
+#endif /* RT_TEST */
+
 typedef void (*cmd_func_t)(void);
 struct cmd_t
 {
@@ -87,10 +108,6 @@ struct cmd_t
 };
 
 static void help_menu(void);
-static void system(void);
-#ifdef RT_TEST
-static void unit_test(void);
-#endif
 
 typedef struct cmd_t cmd_entry;
 static cmd_entry available_cmds[] = {
@@ -114,26 +131,6 @@ static cmd_entry available_cmds[] = {
         }
         #endif
 };
-#ifdef USE_SEMIHOST
-static void system(void)
-{
-    char host_cmd[MAX_MSG_CHARS];
-
-    printf("Enter host command: ");
-    read_token(host_cmd, MAX_MSG_CHARS);
-
-    if (strlen(host_cmd) < MAX_MSG_CHARS - 1 && host_cmd[0] != '\n') {
-        host_system(host_cmd, strlen(host_cmd));
-    }
-}
-#endif
-
-#ifdef RT_TEST
-static void unit_test(void)
-{
-    unit_test_task(0);
-}
-#endif /* RT_TEST */
 
 static void help_menu(void)
 {
