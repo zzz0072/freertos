@@ -84,7 +84,7 @@ ifeq ($(BUILD_TYPE), DEBUG)
 	CFLAGS += -gdwarf-2 -g3 -DENABLE_DEBUG
 
 	ifeq ($(USE_UNIT_TEST), YES)
-		CFLAGS  +=-DRT_TEST
+		CFLAGS  +=-DUSE_UNIT_TEST
 		SRCS    += unit_tests.c
 		HEADERS += unit_tests.h
 	endif

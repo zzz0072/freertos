@@ -2,7 +2,7 @@
 #include "string.h"
 #include "host.h"
 /* Debug/Testing */
-#ifdef RT_TEST
+#ifdef USE_UNIT_TEST
 #include "unit_tests.h"
 #endif
 #define MAX_MSG_CHARS (32)
@@ -92,12 +92,12 @@ static void system(void)
 }
 #endif
 
-#ifdef RT_TEST
+#ifdef USE_UNIT_TEST
 static void unit_test(void)
 {
     unit_test_task(0);
 }
-#endif /* RT_TEST */
+#endif /* USE_UNIT_TEST */
 
 typedef void (*cmd_func_t)(void);
 struct cmd_t
@@ -123,7 +123,7 @@ static cmd_entry available_cmds[] = {
             .handler = system
         },
         #endif
-        #ifdef RT_TEST
+        #ifdef USE_UNIT_TEST
         {
             .name = "test",
             .desc = "Run API tests",
