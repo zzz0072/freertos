@@ -32,7 +32,7 @@ FREERTOS_SRC =  \
 		$(FREERTOS_SRC_DIR)/queue.c \
 		$(FREERTOS_SRC_DIR)/tasks.c \
 		$(FREERTOS_SRC_DIR)/portable/GCC/ARM_CM3/port.c \
-		$(FREERTOS_SRC_DIR)/portable/MemMang/heap_1.c
+		$(FREERTOS_SRC_DIR)/portable/MemMang/heap_2.c
 
 SRCS= \
 		$(CMSIS_SRCS)   \
