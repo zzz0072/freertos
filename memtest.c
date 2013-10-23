@@ -9,13 +9,13 @@ struct slot {
 };
 
 #define CIRCBUFSIZE 1024
-unsigned int write_pointer, read_pointer;
-static struct slot slots[CIRCBUFSIZE];
-static unsigned int lfsr = 0xACE1;
+unsigned int g_write_pointer, g_read_pointer;
+static struct slot g_slots[CIRCBUFSIZE];
+static unsigned int g_lfsr = 0xACE1;
 
 static unsigned int circbuf_size(void)
 {
-    return (write_pointer + CIRCBUFSIZE - read_pointer) % CIRCBUFSIZE;
+    return (g_write_pointer + CIRCBUFSIZE - g_read_pointer) % CIRCBUFSIZE;
 }
 
 static void write_cb(struct slot foo)
@@ -24,19 +24,19 @@ static void write_cb(struct slot foo)
         printf("circular buffer overflow\n\r");
         vTaskDelete(NULL);
     }
-    slots[write_pointer++] = foo;
-    write_pointer %= CIRCBUFSIZE;
+    g_slots[g_write_pointer++] = foo;
+    g_write_pointer %= CIRCBUFSIZE;
 }
 
 static struct slot read_cb(void)
 {
     struct slot foo;
-    if (write_pointer == read_pointer) {
+    if (g_write_pointer == g_read_pointer) {
         /* circular buffer is empty */
         return (struct slot){ .pointer=NULL, .size=0, .lfsr=0 };
     }
-    foo = slots[read_pointer++];
-    read_pointer %= CIRCBUFSIZE;
+    foo = g_slots[g_read_pointer++];
+    g_read_pointer %= CIRCBUFSIZE;
     return foo;
 }
 
@@ -46,9 +46,9 @@ static int prng(void)
 {
     static unsigned int bit;
     /* taps: 16 14 13 11; characteristic polynomial: x^16 + x^14 + x^13 + x^11 + 1 */
-    bit  = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5) ) & 1;
-    lfsr =  (lfsr >> 1) | (bit << 15);
-    return lfsr & 0xffff;
+    bit  = ((g_lfsr >> 0) ^ (g_lfsr >> 2) ^ (g_lfsr >> 3) ^ (g_lfsr >> 5) ) & 1;
+    g_lfsr =  (g_lfsr >> 1) | (bit << 15);
+    return g_lfsr & 0xffff;
 }
 
 void mem_test(void)
@@ -68,7 +68,7 @@ void mem_test(void)
                 /* confirm that data didn't get trampled before freeing */
                 struct slot foo = read_cb();
                 p = foo.pointer;
-                lfsr = foo.lfsr;  /* reset the PRNG to its earlier state */
+                g_lfsr = foo.lfsr;  /* reset the PRNG to its earlier state */
                 size = foo.size;
                 printf("free a block, size %d\n\r", size);
                 for (i = 0; i < size; i++) {
@@ -84,7 +84,7 @@ void mem_test(void)
             }
         } else {
             printf("allocate a block, size %d\n\r", size);
-            write_cb((struct slot){.pointer=p, .size=size, .lfsr=lfsr});
+            write_cb((struct slot){.pointer=p, .size=size, .lfsr=g_lfsr});
             for (i = 0; i < size; i++) {
                 p[i] = (unsigned char) prng();
             }
