@@ -48,22 +48,17 @@ static int prng(void)
     /* taps: 16 14 13 11; characteristic polynomial: x^16 + x^14 + x^13 + x^11 + 1  */
     /* bit  = ((g_lfsr >> 0) ^ (g_lfsr >> 2) ^ (g_lfsr >> 3) ^ (g_lfsr >> 5) ) & 1; */
     /* g_lfsr =  (g_lfsr >> 1) | (bit << 15);                                       */
-
-    __asm__ ("mov r0, %[pre_lfsr] \n" /* r2 = (g_lfsr >> 0) ^ (g_lfsr >> 2) */ \
-             "lsr r1, r0, #2      \n"                                          \
-             "eor r2, r1, r0      \n"                                          \
-             "lsr r1, r0, #3      \n" /* r2 = r2 ^ (g_lfsr >> 3) */            \
-             "eor r2, r1, r2      \n"                                          \
-             "lsr r1, r0, #5      \n" /* r2 = r2 ^ (g_lfsr >> 5) */            \
-             "eor r2, r1, r2      \n"                                          \
-             "and r1, r2, #1      \n" /* bit = r1 = r2 & 1       */            \
-             "lsl r1, r1, #15     \n" /* bit << 15               */            \
-             "lsr r2, r0, #1      \n" /* r2 = g_lfsr >> 1        */            \
-             "orr r2, r1, r2      \n" /* g_lfsr = r1 | r2        */            \
-             "mov %[result], r2   \n" /* Store result            */            \
+    __asm__ ("mov r0, %[pre_lfsr]    \n"                                          \
+             "eor r1, r0, r0, lsr #2 \n" /* r1 = (g_lfsr >> 0) ^ (g_lfsr >> 2) */ \
+             "eor r1, r1, r0, lsr #3 \n" /* r1 = r1 ^ (g_lfsr >> 3) */            \
+             "eor r1, r1, r0, lsr #5 \n" /* r1 = r1 ^ (g_lfsr >> 5) */            \
+             "and r1, r1, #1         \n" /* bit = r1 = r1 & 1       */            \
+             "lsl r1, r1, #15        \n" /* bit << 15               */            \
+             "orr r1, r1, r0, lsr #1 \n" /* g_lfsr = r1 | r2        */            \
+             "mov %[result], r1      \n" /* Store result            */            \
              : [result]  "=r" (g_lfsr)   /* Output              */
              : [pre_lfsr] "r" (g_lfsr)   /* Input               */
-             : "r0", "r1", "r2"          /* clobbered registers */);
+             : "r0", "r1"                /* clobbered registers */);
 
     return g_lfsr & 0xffff;
 }
