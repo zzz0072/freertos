@@ -70,6 +70,8 @@ void mem_test(void)
     char *p;
     char ch;
 
+    /* Set seed from tick count */
+    g_lfsr = (unsigned int) xTaskGetTickCount();
     while (1) {
         size = prng() & 0x7FF;
         printf("try to allocate %d bytes. Press any key to stop testing\n\r", size);
