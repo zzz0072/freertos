@@ -44,7 +44,8 @@ static struct slot read_cb(void)
 /* Get a pseudorandom number generator from Wikipedia */
 static int prng(void)
 {
-    /* A ASM version. The original code were: */
+    /* Info: http://en.wikipedia.org/wiki/Linear_feedback_shift_register */
+    /* A ASM version. The original code were:                            */
     /* taps: 16 14 13 11; characteristic polynomial: x^16 + x^14 + x^13 + x^11 + 1  */
     /* bit  = ((g_lfsr >> 0) ^ (g_lfsr >> 2) ^ (g_lfsr >> 3) ^ (g_lfsr >> 5) ) & 1; */
     /* g_lfsr =  (g_lfsr >> 1) | (bit << 15);                                       */
