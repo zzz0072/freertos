@@ -1,6 +1,7 @@
 #ifndef __UTIL_H__
 #define __UTIL_H__
 #define MAX_ITOA_CHARS (32)
+unsigned int get_current_systick(void);
 
 /* Warning!! Last atoi buf element needs to be set to \0 */
 /*           for itoa(), htoa() and addrtoa()            */

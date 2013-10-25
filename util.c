@@ -1,3 +1,5 @@
+#include "stm32f10x.h" /* Defines systick related address */
+
 enum int_type_t {
     SIGNED_INT,
     UNSIGNED_INT
@@ -43,4 +45,9 @@ char *htoa(int val, char *htoa_buf)
 char* addrtoa(long int addr, char *addr_buf)
 {
     return num_to_string(addr, 16, addr_buf, UNSIGNED_INT);
+}
+
+unsigned int get_current_systick(void)
+{
+    return (unsigned int)SysTick->VAL;
 }

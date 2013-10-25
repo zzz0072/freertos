@@ -49,7 +49,7 @@ void mem_test(void)
     char ch;
 
     /* Set seed from tick count */
-    seed = (unsigned int) xTaskGetTickCount();
+    seed = get_current_systick();
     srand(seed);
     while (1) {
         size = rand() & 0x7FF;
